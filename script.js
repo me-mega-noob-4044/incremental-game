@@ -1,37 +1,53 @@
-var score = 0;
+(function () {
+    "use strict";
 
-var scoreDiplay = document.getElementById("score");
+    var scoreDiplay = document.getElementById("score");
 
-function genearteClickEffect(event) {
-    console.log("HI :)");
+    function saveVal(id, val) {
+        localStorage.setItem(id, val);
+    }
 
-    let element = document.getElementById("click-here");
-    let bubble = document.createElement("span");
-    bubble.classList.add("bubble");
+    function getSavedVal(id) {
+        return localStorage.getItem(id);
+    }
 
-    let rect = element.getBoundingClientRect();
-    let x = event.clientX - rect.left;
-    let y = event.clientY - rect.top;
+    var score = 0;
 
-    bubble.style.left = `${x}px`;
-    bubble.style.top = `${y}px`;
+    if (getSavedVal("score")) {
+        score = parseInt(getSavedVal("score"));
+        scoreDiplay.innerText = score;
+    }
 
-    element.appendChild(bubble);
+    function genearteClickEffect(event) {
+        let element = document.getElementById("click-here");
+        let bubble = document.createElement("span");
+        bubble.classList.add("bubble");
 
-    setTimeout(() => {
-        bubble.remove();
-    }, 750);
-}
+        let rect = element.getBoundingClientRect();
+        let x = event.clientX - rect.left;
+        let y = event.clientY - rect.top;
 
-document.getElementById("click-here").onclick = function (event) {
-    score++;
+        bubble.style.left = `${x}px`;
+        bubble.style.top = `${y}px`;
 
-    scoreDiplay.innerText = score;
-    genearteClickEffect(event);
+        element.appendChild(bubble);
 
-    this.classList.remove("clicked");
+        setTimeout(() => {
+            bubble.remove();
+        }, 750);
+    }
 
-    void this.offsetWidth;
+    document.getElementById("click-here").onclick = function (event) {
+        score++;
+        saveVal("score", score);
 
-    this.classList.add("clicked");
-};
+        scoreDiplay.innerText = score;
+        genearteClickEffect(event);
+
+        this.classList.remove("clicked");
+
+        void this.offsetWidth;
+
+        this.classList.add("clicked");
+    };
+}());
