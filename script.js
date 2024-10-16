@@ -3,8 +3,6 @@ var score = 0;
 var scoreDiplay = document.getElementById("score");
 
 function genearteClickEffect(event) {
-    console.log("HI :)");
-
     let element = document.getElementById("click-here");
     let bubble = document.createElement("span");
     bubble.classList.add("bubble");
